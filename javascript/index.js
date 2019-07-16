@@ -1,3 +1,9 @@
+/*
+  resources:
+  https://www.japan-guide.com/e/e2018.html
+  https://www.learn-japanese-adventure.com/japanese-trains.html
+*/
+
 $(document).ready(function(){
   console.log("よろしくね おねがいします。");
   console.log("はじめましょう。");
