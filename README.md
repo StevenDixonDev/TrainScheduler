@@ -1,8 +1,10 @@
 # Train Schedular (日本 Edition)
 
-:bullettrain_side: A scheduler app for Japan's Bullet Train Line - Shinkansen(新幹線).
+:bullettrain_side: A scheduler app for Japan's Bullet Train Line - Shinkansen(新幹線). 
 
-:bullettrain_side:　このアプのは新幹線のスケジュールを処理します。
+specifically the Tokaido Shinkansen.
+
+:bullettrain_side:このアプリは新幹線のスケジュールを処理します。
 
 ## Libraries
 
