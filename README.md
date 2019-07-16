@@ -9,7 +9,8 @@ specifically the Tokaido Shinkansen.
 ## Libraries
 
 - JQuery
-- FireBase, App, DataBase
+- Moment JS
+- FireBase, App, DataBase, Auth
 
 ## Goals
 

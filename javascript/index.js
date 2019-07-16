@@ -8,9 +8,7 @@
   Things needed: 
   number of trains
   train speeds
-  stops
-
-  
+  stops 
 */
 
 $(document).ready(function(){
@@ -100,29 +98,28 @@ $(document).ready(function(){
 
 
 /* 
-
 Train handler
 
- calculations based on current train station
+  calculations based on current train station
 
- get all trains and calculate when the next time they would stop at this station based on speed and distance....
+  get all trains and calculate when the next time they would stop at this station based on speed and distance....
  
- time = distance/speed;
+  time = distance/speed;
 
- get trains
+  get trains
 
- compare departure time to current time 
+  compare departure time to current time 
 
- Return the number of milliseconds since 1970/01/01:
+  Return the number of milliseconds since 1970/01/01:
 
   var d = new Date();
   var n = d.getTime();
 
   need to convert ms into hours (time/(1000*60*60))
 
- update current mileage based on delta  (if it has been multiple days we are gonna get large numbers)
+  update current mileage based on delta  (if it has been multiple days we are gonna get large numbers)
 
- if mile is greater than mile-to, the train has passed the stop...
+  if mile is greater than mile-to, the train has passed the stop...
 
   use while loop to calculate the next stop
 
@@ -133,7 +130,6 @@ Train handler
   if mile is less than mile-to , the train is still in transit
     set new mileage
     update time to arriaval at current station
-    
 */
 
 /*
@@ -142,5 +138,4 @@ Train handler
   then don't show trains that wont stop at that station
 
   kodama stops at all stations but Hikari stops at only a few stations
-
 */
