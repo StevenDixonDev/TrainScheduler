@@ -82,3 +82,7 @@ Distance Between stops
 |米原| Maibara:| 408.2|	
 |京都| Kyoto:| 476.3|
 |新大阪| Shin-Ōsaka:| 515.4|	
+
+
+
+train starts at mishima 111.3m from tokyo headed east to osaka  = 515.4m - 113m 

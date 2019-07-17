@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
   <meta charset="UTF-8" />
@@ -10,12 +10,63 @@
   <script src="https://kit.fontawesome.com/32bd69efbb.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
 </head>
 
-<body>
+<body class="container h-100">
+  <section id="login" class="d-none d-flex justify-content-center align-items-center h-100">
+    <div class="col-sm-8 col-md-6" id="firebaseui-auth-container">
+  
+    </div>
+  </div>
+  </section>
+  <section id="admin-display" class="d-none">
+    
+  </section>
+  <section id="train-display" class="d-none d-flex flex-column">
+        <div class="jumbotron mb-0">
+          <h1 class="text-center">Tokaido Shinkansen Scheduler</h1>
+        </div>
+        <div id="login-bar" class="nav justify-content-between">
+            <button id="login-button" class="d-none d-flex nav-item btn">Login</button>
+            <button id="logout-button" class="d-none nav-item btn">Logout</button>
+            <p id="welcome" class="nav-item"></p>
+        </div>
+        <div class="card">
+            <div class="card-header" data-jp="日程" data-en="Schedule">
+                Schedule
+            </div>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Distance (miles)</th>
+                    <th scope="col">Distance (minutes)</th>
+                    <th scope="col">Direction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Kodama</th>
+                    <td>10m</td>
+                    <td>5m</td>
+                    <td>East</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+  </section>
+
+
+
+
+
+
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />

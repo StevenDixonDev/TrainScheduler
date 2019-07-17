@@ -3,19 +3,20 @@
   https://www.japan-guide.com/e/e2018.html
   https://www.learn-japanese-adventure.com/japanese-trains.html
 
-  how to format train schedules ????
-
   Things needed: 
   number of trains
   train speeds
   stops 
 */
 
-$(document).ready(function(){
+$(document).ready(function() {
   console.log("よろしくね おねがいします。");
   console.log("はじめましょう。");
   console.log("I look forward to working with you​");
   console.log("Let us begin.");
+
+  let user = localStorage.getItem("user");
+  if (user) user = JSON.parse(user);
 
   var firebaseConfig = {
     apiKey: "AIzaSyBUA3JHYkBzf2xl1xZLt3qmFnFUBymd1KM",
@@ -30,11 +31,44 @@ $(document).ready(function(){
   firebase.initializeApp(firebaseConfig);
 
   let database = firebase.database();
-})
+
+  // create login for screen
+  //openLogin(firebase);
+
+  $("#login-button").on("click", () => {
+    $("#train-display").removeClass("d-flex");
+    openLogin(firebase);
+    $("#login").addClass("d-flex");
+  });
+
+  $("#logout-button").on("click", () => {
+    firebase.auth().signOut();
+  });
+
+  if (user) {
+    console.log(user)
+    $("#welcome").text("Welcome: " + user.displayName);
+  }
+
+  // listen for change on login
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      $("#login").removeClass("d-flex");
+      $("#logout-button").addClass("d-flex");
+      $("#login-button").removeClass("d-flex");
+    } else {
+      localStorage.removeItem("user");
+      $("#login").removeClass("d-flex");
+      $("#logout-button").removeClass("d-flex");
+      $("#login-button").addClass("d-flex");
+    }
+  });
+
+});
 
 //database.ref("/users")
 //used to look at directories of the database
-
 
 /*
   Web page layout
@@ -49,7 +83,6 @@ $(document).ready(function(){
     - add a train
         - set direction
         - set type
-
 */
 
 /*
@@ -86,20 +119,15 @@ $(document).ready(function(){
 
 */
 
-
 /*
   Train Schema:
 
   name: ( Kodama| Hikari )#
-  last-stop:
-  next-stop: 
-  mile:
-  mile-to:   
+  departure-from:
   departure-time:
   direction: (osaka, tokyo)(east or west);
 
 */
-
 
 /* 
 Train handler
@@ -114,26 +142,13 @@ Train handler
 
   compare departure time to current time 
 
-  Return the number of milliseconds since 1970/01/01:
+  find the delta and calculate distance travelled based on speed
 
-  var d = new Date();
-  var n = d.getTime();
+  use the starting location to determine where the train should currently be at
+     will need to use direction and change direction if the train has turned around at tokyo or osaka.
 
-  need to convert ms into hours (time/(1000*60*60))
 
-  update current mileage based on delta  (if it has been multiple days we are gonna get large numbers)
-
-  if mile is greater than mile-to, the train has passed the stop...
-
-  use while loop to calculate the next stop
-
-  subtract the next stops distance from the total distance until the mile-to is greater than mile
-  (we have a list of stops with distances)
-  need to check direction during this process because train will need turn around if it arrive at the end of the line...   
-
-  if mile is less than mile-to , the train is still in transit
-    set new mileage
-    update time to arriaval at current station
+  
 */
 
 /*
@@ -143,3 +158,52 @@ Train handler
 
   kodama stops at all stations but Hikari stops at only a few stations
 */
+
+function distanceMap(userStation, startingStation, currentMileage) {
+  const stops = {
+    Tokyo: 0,
+    Shinagawa: 6.8,
+    "Shin-Yokohama": 25.5,
+    Odawara: 76.7,
+    Atami: 95.4,
+    Mishima: 111.3,
+    "Shin-Fuji": 135.0,
+    Shizuoka: 167.4,
+    Kakegawa: 211.3,
+    Hamamatsu: 238.9,
+    Toyohashi: 274.2,
+    "Mikawa-Anjō": 312.8,
+    Nagoya: 342.0,
+    "Gifu-Hashima": 367.1,
+    Maibara: 408.2,
+    Kyoto: 476.3,
+    "Shin-Ōsaka": 515.4
+  };
+
+  let userDistance = stops[userStation];
+}
+
+function openLogin(firebase) {
+  var uiConfig = {
+    signInSuccessUrl: "/",
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.GithubAuthProvider.PROVIDER_ID
+    ],
+    // tosUrl and privacyPolicyUrl accept either url string or a callback
+    // function.
+    // Terms of service url/callback.
+    signInFlow: 'popup',
+    tosUrl: "<your-tos-url>",
+    // Privacy policy url/callback.
+    privacyPolicyUrl: function() {
+      window.location.assign("<your-privacy-policy-url>");
+    }
+  };
+
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  // The start method will wait until the DOM is loaded.
+  ui.start("#firebaseui-auth-container", uiConfig);
+}

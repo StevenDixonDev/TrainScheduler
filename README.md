@@ -4,7 +4,7 @@
 
 specifically the Tokaido Shinkansen.
 
-:bullettrain_side:このアプリは新幹線のスケジュールを処理します。
+:bullettrain_side: このアプリは新幹線のスケジュールを処理します。
 
 ## Libraries
 
