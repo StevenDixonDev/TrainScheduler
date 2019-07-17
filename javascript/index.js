@@ -32,6 +32,10 @@ $(document).ready(function(){
   let database = firebase.database();
 })
 
+//database.ref("/users")
+//used to look at directories of the database
+
+
 /*
   Web page layout
 
