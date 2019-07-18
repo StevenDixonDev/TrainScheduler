@@ -1,0 +1,12 @@
+#video {
+  position: absolute; 
+  top: 0px; left: 0;  
+  transform: translate(0, 0); 
+  z-index: -100;
+}
+
+@media (min-width: 700px){
+  #video{
+    transform: translate(0, -50%); 
+  }
+}

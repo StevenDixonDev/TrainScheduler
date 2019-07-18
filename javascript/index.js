@@ -45,11 +45,6 @@ $(document).ready(function() {
     firebase.auth().signOut();
   });
 
-  if (user) {
-    console.log(user)
-    $("#welcome").text("Welcome: " + user.displayName);
-  }
-
   // listen for change on login
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -57,14 +52,40 @@ $(document).ready(function() {
       $("#login").removeClass("d-flex");
       $("#logout-button").addClass("d-flex");
       $("#login-button").removeClass("d-flex");
+      $("#welcome").text("Welcome: " + user.displayName);
     } else {
       localStorage.removeItem("user");
       $("#login").removeClass("d-flex");
       $("#logout-button").removeClass("d-flex");
       $("#login-button").addClass("d-flex");
+      $("#welcome").text("");
     }
   });
 
+  deferVideo();
+  //toJap();
+
+let language = localStorage.getItem("language");
+if(language){
+  if(language === 'JP'){
+    toJap();
+    $("#cb3").attr("checked", "true")
+  }
+}
+
+
+$(document).on("click", "#cb3", function(item){
+  console.log(event)
+  console.log($(this).prop('checked'));
+  const checked = $(this).prop('checked');
+  if(checked){
+    toJap();
+    localStorage.setItem("language", "JP");
+  }else{
+    toEng();
+    localStorage.setItem("language", "EN");
+  }
+})
 });
 
 //database.ref("/users")
@@ -194,16 +215,41 @@ function openLogin(firebase) {
     // tosUrl and privacyPolicyUrl accept either url string or a callback
     // function.
     // Terms of service url/callback.
-    signInFlow: 'popup',
-    tosUrl: "<your-tos-url>",
-    // Privacy policy url/callback.
-    privacyPolicyUrl: function() {
-      window.location.assign("<your-privacy-policy-url>");
-    }
+    signInFlow: 'popup'
   };
 
   // Initialize the FirebaseUI Widget using Firebase.
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // The start method will wait until the DOM is loaded.
   ui.start("#firebaseui-auth-container", uiConfig);
+
+}
+
+
+function deferVideo() {
+
+  //defer html5 video loading
+$("video source").each(function() {
+  var sourceFile = $(this).attr("data-src");
+  $(this).attr("src", sourceFile);
+  var video = this.parentElement;
+  video.load();
+  // uncomment if video is not autoplay
+  //video.play();
+});
+
+}
+
+function toJap(){
+  let wordsToChange  = $("[data-jp]");
+  $.each(wordsToChange, function(index, element){
+    $(element).text($(element).attr("data-jp"));
+  })
+}
+
+function toEng(){
+  let wordsToChange  = $("[data-en]");
+  $.each(wordsToChange, function(index, element){
+    $(element).text($(element).attr("data-en"));
+  })
 }
