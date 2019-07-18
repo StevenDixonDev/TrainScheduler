@@ -17,6 +17,7 @@ $(document).ready(function() {
 
   let user = localStorage.getItem("user");
   if (user) user = JSON.parse(user);
+  console.log(user)
 
   var firebaseConfig = {
     apiKey: "AIzaSyBUA3JHYkBzf2xl1xZLt3qmFnFUBymd1KM",
@@ -62,8 +63,7 @@ $(document).ready(function() {
     }
   });
 
-  deferVideo();
-  //toJap();
+deferVideo();
 
 let language = localStorage.getItem("language");
 if(language){
@@ -75,7 +75,7 @@ if(language){
 
 
 $(document).on("click", "#cb3", function(item){
-  console.log(event)
+  
   console.log($(this).prop('checked'));
   const checked = $(this).prop('checked');
   if(checked){
@@ -86,6 +86,7 @@ $(document).on("click", "#cb3", function(item){
     localStorage.setItem("language", "EN");
   }
 })
+
 });
 
 //database.ref("/users")
@@ -206,7 +207,7 @@ function distanceMap(userStation, startingStation, currentMileage) {
 
 function openLogin(firebase) {
   var uiConfig = {
-    signInSuccessUrl: "/",
+    signInSuccessUrl: "/TrainScheduler/",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -215,7 +216,10 @@ function openLogin(firebase) {
     // tosUrl and privacyPolicyUrl accept either url string or a callback
     // function.
     // Terms of service url/callback.
-    signInFlow: 'popup'
+    signInFlow: 'popup',
+    callbacks: {
+    signInFailure: (code)=>{console.log(code); return handleUIError(code);}
+    }
   };
 
   // Initialize the FirebaseUI Widget using Firebase.
