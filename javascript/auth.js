@@ -42,9 +42,6 @@ function openLogin(firebase) {
     // function.
     // Terms of service url/callback.
     signInFlow: 'popup',
-    callbacks: {
-    signInFailure: (code)=>{console.log(code); return handleUIError(code);}
-    }
   };
 
   // Initialize the FirebaseUI Widget using Firebase.
@@ -60,9 +57,7 @@ function setUserInfo(user){
   $(insert).attr("data-jp", `ユーザー: ${user.displayName}`);
   $(insert).attr("data-en", `User: ${user.displayName}`);
 
-  console.log(insert)
   if(lan === 'JP'){
-    console.log("jp")
     $(insert).text(`ユーザー: ${user.displayName}`);
     $("#login-bar").append(insert);
     //$("login-bar").append(`<p id="generated-user" data-jp="ユーザー: ${user.displayName}" data-en="User: ${user.displayName}">ユーザー: ${user.displayName}</p>`)
