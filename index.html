@@ -7,15 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Shinkansen Scheduler</title>
   <link rel="shortcut icon" href="./assets/train.ico" type="image/x-icon" />
-  <script src="https://kit.fontawesome.com/32bd69efbb.js"></script>
+  <!-- Imported CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/switch.css">
   <link rel="stylesheet" href="./assets/css/video.css">
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
+  
 </head>
 
-<body class="container-fluid h-100">
+<body class="container h-100">
   <section id="login" class="d-none d-flex justify-content-center align-items-center h-100">
     <div class="col-sm-8 col-md-6" id="firebaseui-auth-container">
     </div>
@@ -31,20 +35,18 @@
               <source src="" data-src="./assets/video/filtered.mp4" type="video/mp4">
             </video>
         </div>
-        <div style="position: absolute; top: 0; right: 18px; z-index: 100">
+        <div id="lan-toggle">
             <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
             <label class="tgl-btn" data-tg-off="EN" data-tg-on="日本語" for="cb3"></label>
         </div>
         <div id="login-bar" class="nav justify-content-between">
-            <button id="login-button" data-jp="ログイン" data-en="Login" class="d-none d-flex nav-item btn btn-primary">Login</button>
-            <button id="logout-button" data-jp="ログアウト" data-en="Logout" class="d-none nav-item btn btn-error">Logout</button>
-            <p id="welcome" class="nav-item"></p>
+            <button id="login-button" data-jp="ログイン" data-en="Login" class="d-none d-flex nav-item btn btn-outline-success">Login</button>
+            <button id="logout-button" data-jp="ログアウト" data-en="Logout" class="d-none nav-item btn btn-outline-secondary">Logout</button>
         </div>
         <div class="card dark">
             <div class="card-header dark" data-jp="日程 - にってい" data-en="Schedule">
                 Schedule
             </div>
-            
             <table class="table">
                 <thead>
                   <tr>
@@ -73,6 +75,7 @@
 
 
   <!-- Imported Libraries -->
+  <script src="https://kit.fontawesome.com/32bd69efbb.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>

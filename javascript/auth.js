@@ -19,12 +19,12 @@ $(document).ready(function(){
       $("#login").removeClass("d-flex");
       $("#logout-button").addClass("d-flex");
       $("#login-button").removeClass("d-flex");
-      $("#welcome").text("Welcome: " + user.displayName);
+      setUserInfo(user);
     } else {
       $("#login").removeClass("d-flex");
       $("#logout-button").removeClass("d-flex");
       $("#login-button").addClass("d-flex");
-      $("#welcome").text("");
+      removeUserInfo();
     }
   });
 })
@@ -50,4 +50,28 @@ function openLogin(firebase) {
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // The start method will wait until the DOM is loaded.
   ui.start("#firebaseui-auth-container", uiConfig);
+}
+
+function setUserInfo(user){
+  let lan = localStorage.getItem("language");
+  let insert = $("<p>");
+  insert.attr("id", "generated-user");
+  $(insert).attr("data-jp", `ユーザー: ${user.displayName}`);
+  $(insert).attr("data-en", `User: ${user.displayName}`);
+
+  console.log(insert)
+  if(lan === 'JP'){
+    console.log("jp")
+    $(insert).text(`ユーザー: ${user.displayName}`);
+    $("#login-bar").append(insert);
+    //$("login-bar").append(`<p id="generated-user" data-jp="ユーザー: ${user.displayName}" data-en="User: ${user.displayName}">ユーザー: ${user.displayName}</p>`)
+  }else{
+    $(insert).text(`User: ${user.displayName}`);
+    $("#login-bar").append(insert);
+    //$("login-bar").append(`<p id="generated-user" data-jp="ユーザー: ${user.displayName}" data-en="User: ${user.displayName}">User: ${user.displayName}</p>`)
+  }
+}
+
+function removeUserInfo(){
+  $("#generated-user").remove();
 }

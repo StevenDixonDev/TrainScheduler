@@ -7,6 +7,12 @@
 
 @media (min-width: 700px){
   #video{
-    transform: translate(0, -50%); 
+    transform: translate(0, -20%); 
+  }
+}
+
+@media (min-width: 1000px){
+  #video{
+    transform: translate(0, -40%); 
   }
 }
