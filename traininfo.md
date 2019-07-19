@@ -48,7 +48,7 @@ Kodama stops at:
 - Shizouka 
 - Kakegawa 
 - Hamamatsu 
-- Toyohashi M
+- Toyohashi
 - Mikawa-Anjo 
 - Nagoya
 - Gifu-hashima 

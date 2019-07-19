@@ -5,10 +5,6 @@
   https://www.japan-guide.com/e/e2018.html
   https://www.learn-japanese-adventure.com/japanese-trains.html
 
-  Things needed: 
-  number of trains
-  train speeds
-  stops 
 */
 
 $(document).ready(function() {
@@ -30,17 +26,6 @@ $(document).ready(function() {
   firebase.initializeApp(firebaseConfig);
 
   let database = firebase.database();
-
-
-
-  
-  
-
-
-
-
-
-
 
 
 });

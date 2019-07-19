@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -36,15 +38,15 @@
             </video>
         </div>
         <div id="lan-toggle">
-            <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+            <input class="tgl tgl-skewed" id="cb3" type="checkbox" role="switch-language"/>
             <label class="tgl-btn" data-tg-off="EN" data-tg-on="日本語" for="cb3"></label>
         </div>
-        <div id="login-bar" class="nav justify-content-between">
+        <div id="login-bar" class="nav justify-content-between mt-1 mb-1">
             <button id="login-button" data-jp="ログイン" data-en="Login" class="d-none d-flex nav-item btn btn-outline-success">Login</button>
             <button id="logout-button" data-jp="ログアウト" data-en="Logout" class="d-none nav-item btn btn-outline-secondary">Logout</button>
         </div>
-        <div class="card dark">
-            <div class="card-header dark" data-jp="日程 - にってい" data-en="Schedule">
+        <div class="card mt-1" >
+            <div class="card-header" data-jp="日程 - にってい" data-en="Schedule">
                 Schedule
             </div>
             <table class="table">
@@ -68,8 +70,48 @@
                 </tbody>
               </table>
         </div>
+        <div class="card mt-1" id="train-manager">
+            <div class="card-header dark" data-jp="電車を追加" data-en="Add a Train">
+                Add a Train
+            </div>
+            <div class="card-text">
+            <form class="p-1">
+                <div class="form-row">
+                    <div class="form-group col-sm-12 col-md-6">
+                      <label for="train-type" data-jp="電車の型" data-en="Train Type: ">Train Type: </label>
+                        <select class="form-control form-control-sm" id="train-type">
+                            <option>Hikari</option>
+                            <option>Kodama</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6">
+                        <label for="train-stop" data-jp="停留所" data-en="Train Station: ">Train Station: </label>
+                          <select class="form-control form-control-sm" id="train-stop">
+                              <option value="Tokyo">Tokyo</option>
+                              <option value="Shingawa">Shingawa</option>
+                              <option value="Shin-yokohama">Shin-yokohama</option>
+                              <option value="Nagoya">Nagoya</option>
+                              <option value="Kyoto">Kyoto</option>
+                              <option value="Shin-osaka">Shin-osaka</option>
+                              <option value="Osawara">Osawara</option>
+                              <option value="Atami">Atami</option>
+                              <option value="Mishima">Mishima</option>
+                              <option value="Shizouka">Shizouka</option>
+                              <option value="Hamamatsu">Hamamatsu</option>
+                              <option value="Maibara">Maibara</option>
+                          </select>
+                      </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12 d-flex justify-content-right">
+                       <button id="submit-train" class="btn btn-outline-success"  data-jp="電車を追加" data-en="Add a Train">Add a Train</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
   </section>
-
+  <noscript>Please enable JavaScript to use this page</noscript>
 
 
 
@@ -81,8 +123,6 @@
   <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
   <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -97,6 +137,7 @@
   <script src="./javascript/language.js" defer></script>
   <script src="./javascript/index.js" defer></script>
   <script src="./javascript/auth.js" defer></script>
+  <script src="./javascript/trainform.js" defer></script>
 </body>
 
 </html>

@@ -20,11 +20,13 @@ $(document).ready(function(){
       $("#logout-button").addClass("d-flex");
       $("#login-button").removeClass("d-flex");
       setUserInfo(user);
+      showTrainManager();
     } else {
       $("#login").removeClass("d-flex");
       $("#logout-button").removeClass("d-flex");
       $("#login-button").addClass("d-flex");
       removeUserInfo();
+      hideTrainManager();
     }
   });
 })
@@ -74,4 +76,11 @@ function setUserInfo(user){
 
 function removeUserInfo(){
   $("#generated-user").remove();
+}
+
+function showTrainManager(){
+  $("#train-manager").show()
+}
+function hideTrainManager(){
+  $("#train-manager").hide()
 }
