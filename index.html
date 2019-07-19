@@ -36,8 +36,8 @@
             <label class="tgl-btn" data-tg-off="EN" data-tg-on="日本語" for="cb3"></label>
         </div>
         <div id="login-bar" class="nav justify-content-between">
-            <button id="login-button" data-jp="ログイン" data-en="Login" class="d-none d-flex nav-item btn">Login</button>
-            <button id="logout-button" data-jp="ログアウト" data-en="Logout" class="d-none nav-item btn">Logout</button>
+            <button id="login-button" data-jp="ログイン" data-en="Login" class="d-none d-flex nav-item btn btn-primary">Login</button>
+            <button id="logout-button" data-jp="ログアウト" data-en="Logout" class="d-none nav-item btn btn-error">Logout</button>
             <p id="welcome" class="nav-item"></p>
         </div>
         <div class="card dark">
@@ -49,17 +49,18 @@
                 <thead>
                   <tr>
                     <th scope="col" data-jp="名" data-en="Name">Name</th>
-                    <th scope="col" data-jp="距離(里)" data-en="Distance (miles)" >Distance (miles)</th>
-                    <th scope="col" data-jp="距離(分)" data-en="Distance (minutes)">Distance (minutes)</th>
+                    <th scope="col" data-jp="到着駅" data-en="Arriving at">Arriving at</th> 
+                    <th scope="col" data-jp="距離(里)" data-en="Distance (miles)">Distance (miles)</th>
+                    <th scope="col" data-jp="到着時刻" data-en="Arrival Time">Arrival Time</th>
                     <th scope="col" data-jp="方向" data-en="Direction">Direction</th>
-                    <th scope="col" data-jp="次発" data-en="Next Train">Next Train</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">Kodama 1</th>
-                    <td>10m</td>
-                    <td>5m</td>
+                    <td>Odawara</td>
+                    <td>5</td>
+                    <td>5:35</td>
                     <td>East</td>
                   </tr>
                 </tbody>
@@ -71,7 +72,7 @@
 
 
 
-
+  <!-- Imported Libraries -->
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
@@ -87,7 +88,12 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <!-- Custom JS -->
+  
+  <script src="./javascript/video.js" defer></script>
+  <script src="./javascript/language.js" defer></script>
   <script src="./javascript/index.js" defer></script>
+  <script src="./javascript/auth.js" defer></script>
 </body>
 
 </html>

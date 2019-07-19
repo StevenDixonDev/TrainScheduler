@@ -28,8 +28,12 @@ Bonus:
 
 ## Things I want to do
 
-- Multi - Langauge support (switch between ENG/JAP) 
+- [x] Multi Langauge support (switch between ENG/JAP) 
+- [x] Video Banner 
 
 ## Things I learned
 
 - I had to do a ton of research on the Shinkansen to figure out how the schedules worked
+- Firebase make auth easy if you set it up right
+- Video editing is not my strong suite
+- code splitting is interesting

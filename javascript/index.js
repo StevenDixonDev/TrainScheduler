@@ -1,4 +1,6 @@
 /*
+  Implements functionality for Train scheduling
+
   resources:
   https://www.japan-guide.com/e/e2018.html
   https://www.learn-japanese-adventure.com/japanese-trains.html
@@ -15,10 +17,7 @@ $(document).ready(function() {
   console.log("I look forward to working with you​");
   console.log("Let us begin.");
 
-  let user = localStorage.getItem("user");
-  if (user) user = JSON.parse(user);
-  console.log(user)
-
+  
   var firebaseConfig = {
     apiKey: "AIzaSyBUA3JHYkBzf2xl1xZLt3qmFnFUBymd1KM",
     authDomain: "trainapp-fda47.firebaseapp.com",
@@ -28,64 +27,21 @@ $(document).ready(function() {
     messagingSenderId: "534099270836",
     appId: "1:534099270836:web:a8f5baea92c2d019"
   };
-
   firebase.initializeApp(firebaseConfig);
 
   let database = firebase.database();
 
-  // create login for screen
-  //openLogin(firebase);
-
-  $("#login-button").on("click", () => {
-    $("#train-display").removeClass("d-flex");
-    openLogin(firebase);
-    $("#login").addClass("d-flex");
-  });
-
-  $("#logout-button").on("click", () => {
-    firebase.auth().signOut();
-  });
-
-  // listen for change on login
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      $("#login").removeClass("d-flex");
-      $("#logout-button").addClass("d-flex");
-      $("#login-button").removeClass("d-flex");
-      $("#welcome").text("Welcome: " + user.displayName);
-    } else {
-      localStorage.removeItem("user");
-      $("#login").removeClass("d-flex");
-      $("#logout-button").removeClass("d-flex");
-      $("#login-button").addClass("d-flex");
-      $("#welcome").text("");
-    }
-  });
-
-deferVideo();
-
-let language = localStorage.getItem("language");
-if(language){
-  if(language === 'JP'){
-    toJap();
-    $("#cb3").attr("checked", "true")
-  }
-}
 
 
-$(document).on("click", "#cb3", function(item){
   
-  console.log($(this).prop('checked'));
-  const checked = $(this).prop('checked');
-  if(checked){
-    toJap();
-    localStorage.setItem("language", "JP");
-  }else{
-    toEng();
-    localStorage.setItem("language", "EN");
-  }
-})
+  
+
+
+
+
+
+
+
 
 });
 
@@ -167,18 +123,11 @@ Train handler
   find the delta and calculate distance travelled based on speed
 
   use the starting location to determine where the train should currently be at
-     will need to use direction and change direction if the train has turned around at tokyo or osaka.
+  
+  will need to use direction and change direction if the train has turned around at tokyo or osaka.
 
 
   
-*/
-
-/*
-  Allow user to select current station
-   
-  then don't show trains that wont stop at that station
-
-  kodama stops at all stations but Hikari stops at only a few stations
 */
 
 function distanceMap(userStation, startingStation, currentMileage) {
@@ -201,59 +150,30 @@ function distanceMap(userStation, startingStation, currentMileage) {
     Kyoto: 476.3,
     "Shin-Ōsaka": 515.4
   };
-
-  let userDistance = stops[userStation];
+  return stops[userStation] || 0;
 }
 
-function openLogin(firebase) {
-  var uiConfig = {
-    signInSuccessUrl: "/TrainScheduler/",
-    signInOptions: [
-      // Leave the lines as is for the providers you want to offer your users.
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.GithubAuthProvider.PROVIDER_ID
-    ],
-    // tosUrl and privacyPolicyUrl accept either url string or a callback
-    // function.
-    // Terms of service url/callback.
-    signInFlow: 'popup',
-    callbacks: {
-    signInFailure: (code)=>{console.log(code); return handleUIError(code);}
-    }
-  };
+/*
+  At any point if a train is further than 515.4 it has passed its starting station
+  
+  train starts in kyoto 476.3
+  train travels 100 miles
+  (476.3 + 100) - 515.4 = 60.9
+  puts the train between yokohama and odawara 
 
-  // Initialize the FirebaseUI Widget using Firebase.
-  var ui = new firebaseui.auth.AuthUI(firebase.auth());
-  // The start method will wait until the DOM is loaded.
-  ui.start("#firebaseui-auth-container", uiConfig);
+  we can get the arrival time to odawara by subtracting the current milleage from the distance to 
+  76.7 - 60.9 = 15.1 / speed(175 mph)
 
+*/
+
+function trainFactory(){
+  // makes trains?
 }
 
 
-function deferVideo() {
 
-  //defer html5 video loading
-$("video source").each(function() {
-  var sourceFile = $(this).attr("data-src");
-  $(this).attr("src", sourceFile);
-  var video = this.parentElement;
-  video.load();
-  // uncomment if video is not autoplay
-  //video.play();
-});
 
-}
 
-function toJap(){
-  let wordsToChange  = $("[data-jp]");
-  $.each(wordsToChange, function(index, element){
-    $(element).text($(element).attr("data-jp"));
-  })
-}
 
-function toEng(){
-  let wordsToChange  = $("[data-en]");
-  $.each(wordsToChange, function(index, element){
-    $(element).text($(element).attr("data-en"));
-  })
-}
+
+
