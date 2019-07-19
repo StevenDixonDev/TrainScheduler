@@ -36,7 +36,6 @@ function openLogin(firebase) {
     signInSuccessUrl: `${window.location.pathname}`, // needs to be changed if in github ... 
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID
     ],
     // tosUrl and privacyPolicyUrl accept either url string or a callback
