@@ -29,11 +29,16 @@ function addATrain(e){
       stop,
       direction,
       date: `${date} ${depart}`,
-      //time: time.valueOf()
     })
+    clearForm();
   }else{
     console.log("form error");
   }
+}
+
+function clearForm(){
+  $("#train-nick").val("");
+  $("#train-depart").val("");
 }
 
 
