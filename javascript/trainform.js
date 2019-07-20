@@ -6,7 +6,6 @@
 
 $(document).ready(function(){
 
-  console.log(moment("12-25-1995 24:00", "MM-DD-YY HH:mm").valueOf())
 $(document).on('change', '#train-type', changeTrainStations);
 
 $(document).on('click', '#submit-train', addATrain);
@@ -20,19 +19,17 @@ function addATrain(e){
   let depart = $("#train-depart").val().trim();
   let direction = $("#train-direction").val().trim();
   let date = $("#train-date").val().trim();
-  console.log(date, depart)
-  let time = moment(`${date} ${depart}`, "YYYY-MM-DD HH:mm").valueOf();
- 
-  console.log(name, type, stop, depart, direction, date, time)
-  if(name && type && stop && depart && direction){
+  // get unix epoch time
+  let time = moment(`${date} ${depart}`, "YYYY-MM-DD HH:mm");
+  // make sure everything is filled out
+  if(name && type && stop && depart && direction && time.isValid()){
     firebase.database().ref("/trains").push({
       name,
       type,
       stop,
-      depart,
       direction,
-      date,
-      time
+      date: `${date} ${depart}`,
+      //time: time.valueOf()
     })
   }else{
     console.log("form error");
@@ -50,7 +47,7 @@ function changeTrainStations(e){
 
 
 function addHikariStations(){
-  const stations = ["Tokyo", "Shingawa", "Shin-yokohama", "Nagoya", "Kyoto", "Shin-osaka", "Osawara", "Atami", "Mishima", "Shizouka", "Hamamatsu", "Maibara"];
+  const stations = ["Tokyo", "Shinagawa", "Shin-Yokohama", "Odawara", "Atami", "Mishima", "Shizouka", "Hamamatsu", "Nagoya", "Maibara", "Kyoto", "Shin-Ōsaka"];
   $("#train-stop").empty();
   $.each(stations, function(index, station){
     $("#train-stop").append(`<option value="${station}">${station}</option>`)
@@ -58,7 +55,7 @@ function addHikariStations(){
 }
 
 function addKodamaStations(){
-  const stations = ["Tokyo", "Shingawa", "Shin-yokohama", "Osawara", "Atami", "Mishima", "Shin-fuji", "Shizouka", "Kakegawa", "Hamamatsu", "Toyohashi" ,"Mikawa-Anjo", "Nagoya", "Gifu-hashima", "Maibara", "Kyoto", "Shin-Osaka"];
+  const stations = ["Tokyo", "Shinagawa", "Shin-Yokohama", "Odawara", "Atami", "Mishima", "Shin-Fuji", "Shizouka", "Kakegawa", "Hamamatsu", "Toyohashi" ,"Mikawa-Anjō", "Nagoya", "Gifu-hashima", "Maibara", "Kyoto", "Shin-Ōsaka"];
   $("#train-stop").empty();
   $.each(stations, function(index, station){
     $("#train-stop").append(`<option value="${station}">${station}</option>`);

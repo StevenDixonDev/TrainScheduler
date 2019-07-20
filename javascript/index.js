@@ -13,6 +13,7 @@ $(document).ready(function () {
   console.log("I look forward to working with you​");
   console.log("Let us begin.");
 
+  let trainList = [];
 
   var firebaseConfig = {
     apiKey: "AIzaSyBUA3JHYkBzf2xl1xZLt3qmFnFUBymd1KM",
@@ -27,136 +28,167 @@ $(document).ready(function () {
 
   let database = firebase.database();
 
-  
+  database.ref("/trains").on('child_added', function (data) {
+    //console.log(data.val())
+    trainList.push(data.val());
+    addTrainToList(data.val())
 
+  })
+
+  let trainUpdater = setInterval(()=>{
+    updateTrains(trainList);
+  }, 60000);
 
 });
 
-//database.ref("/users")
-//used to look at directories of the database
-
-/*
-  Program layout
-
-  state 
-    current trains
-    language
-    modal states
-    page/tab
-
-  Firebase Setup
-
-  Firebase event listener tells the page controller the trains have been updated
-
-  timer - updates all trains based on train handler every 60000ms, which will trigger the fb eventlistener
-
-  train handler 
-    - handles train based calculations.
-    - creates new trains
-    - tells firebase to update trains in db
-
-  page handler 
-    - handles mapping events to functions
-    - updates state  
-
-  page controller
-    - tells handler and renderer to update
-
-  page renderer
-    - renders/updates page based on current tab && language
-    - shows things if a user is logged in
-    - sets event listeners based on the rendered page
-
-*/
-
-/*
-  Train Schema:
-
-  name: ( Kodama| Hikari )#
-  departure-from:
-  departure-time:
-  direction: (osaka, tokyo)(east or west);
-
-*/
-
-/* 
-Train handler
-
-  calculations based on current train station
-
-  get all trains and calculate when the next time they would stop at this station based on speed and distance....
- 
-  time = distance/speed;
-
-  get trains
-
-  compare departure time to current time 
-
-  find the delta and calculate distance travelled based on speed
-
-  use the starting location to determine where the train should currently be at
-  
-  will need to use direction and change direction if the train has turned around at tokyo or osaka.
 
 
-  
-*/
+function getStops(trainType) {
+  let stations = [];
+  if(trainType === "Kodama"){
+    stations = ["Tokyo", "Shinagawa", "Shin-Yokohama", "Odawara", "Atami", "Mishima", "Shin-Fuji", "Shizouka", "Kakegawa", "Hamamatsu", "Toyohashi" ,"Mikawa-Anjō", "Nagoya", "Gifu-hashima", "Maibara", "Kyoto", "Shin-Ōsaka"];
+  }else{
+    stations = ["Tokyo", "Shinagawa", "Shin-Yokohama", "Odawara", "Atami", "Mishima", "Shizouka", "Hamamatsu", "Nagoya", "Maibara", "Kyoto", "Shin-Ōsaka"];
+  }
+  const stops = trainMap();
+  let mappedStops = stations.reduce((acc, cur)=>{
+    if(stops[cur] !== undefined){
+      acc[cur] = stops[cur];
+    }
+    return acc;
+  }, {});
+  return mappedStops;
+}
 
-function distanceMap(userStation, startingStation, currentMileage) {
-  const stops = {
-    Tokyo: 0,
-    Shinagawa: 6.8,
+function trainMap(){
+  return {
+    "Tokyo": 0,
+    "Shinagawa": 6.8,
     "Shin-Yokohama": 25.5,
-    Odawara: 76.7,
-    Atami: 95.4,
-    Mishima: 111.3,
+    "Odawara": 76.7,
+    "Atami": 95.4,
+    "Mishima": 111.3,
     "Shin-Fuji": 135.0,
-    Shizuoka: 167.4,
-    Kakegawa: 211.3,
-    Hamamatsu: 238.9,
-    Toyohashi: 274.2,
+    "Shizuoka": 167.4,
+    "Kakegawa": 211.3,
+    "Hamamatsu": 238.9,
+    "Toyohashi": 274.2,
     "Mikawa-Anjō": 312.8,
-    Nagoya: 342.0,
+    "Nagoya": 342.0,
     "Gifu-Hashima": 367.1,
-    Maibara: 408.2,
-    Kyoto: 476.3,
+    "Maibara": 408.2,
+    "Kyoto": 476.3,
     "Shin-Ōsaka": 515.4
   };
-  return stops[userStation] || 0;
 }
 
-/*
-  At any point if a train is further than 515.4 it has passed its starting station
+function getDistance(train){
+  const currentTime = moment(new Date());
+  const lastTime = moment(train.date);
+  const hours = moment.duration(currentTime.diff(lastTime)).asHours();
+  const speed = 175;
+  return (hours * speed);
+}
+
+function getRemainingDistance(rate, distance, train){
+  let tempD = parseInt(distance);
+  let currentDir = train.direction;
+  while (tempD - rate > 0) {
+    tempD = tempD - rate;
+    currentDir = {East: "West", West: "East"}[currentDir];
+  }
+  return {distance: tempD, direction: currentDir};
+}
+
+function trainCalculator(train) {
+  // edge case if user selects first or last stop in the opposite direction
+  if(train.direction === "East" && train.stop === "Tokyo"){
+    train.direction = "West";
+  }else if(train.direction === "West" && train.stop === "Shin-Ōsaka") {
+    train.direction = "East";
+  }
+  // get the dinstance delta distance or how far the train has travelled since starting
+  const distance = getDistance(train);
+  const rate = 514.4;
+  const speed = 175;
+  const calculatedDD = getRemainingDistance(rate, distance, train);
+  let cdistance = calculatedDD.distance;
+  let cDirection = calculatedDD.direction;
   
-  train starts in kyoto 476.3
-  train travels 100 miles
-  (476.3 + 100) - 515.4 = 60.9
-  puts the train between yokohama and odawara 
+  // get the stops object
+  let map = getStops(train.type);
+  // get the keys which are locations
+  let stops = Object.keys(map);
 
-  we can get the arrival time to odawara by subtracting the current milleage from the distance to 
-  76.7 - 60.9 = 15.1 / speed(175 mph)
+  let currentMile = 0;
+  if (cDirection === 'West') {    
+    currentMile = cdistance;
+  }
+  if (cDirection === 'East') { 
+    currentMile = 515.4 - cdistance;
+  }
 
-*/
+  let nextStop = "";
+  
+  stops.forEach((stop)=>{
+    if(cDirection === "West"){
+      if(nextStop === "" && map[stop] > currentMile){
+        nextStop = stop
+      }
+    }
+    if(cDirection === "East"){
+      if(map[stop] < currentMile ){
+        nextStop = stop
+      }
+    }
+  })
 
-function trainFactory() {
-  // makes trains?
+  // determine distance from
+  let distanceTill = calcDistance(trainMap()[nextStop], currentMile);
+  
+
+  // determine time away
+  let timeTill = calcTime(distanceTill, speed)
+
+  //console.log(cdistance);
+  train.nextStop = nextStop;
+  train.milleage = distanceTill.toFixed(2);
+  train.arrival = timeTill.toFixed(0);
+  train.direction = cDirection;
+  return train;
 }
 
+function calcTime(distance, speed){
+  // use math to get what we need
+  return (distance/speed)*60;
+}
 
+function calcDistance(next, current){
+  let d = 0;
+  if(next > current){
+    d = next - current;
+  }else{
+    d = current - next;
+  }
+  return d;
+}
 
 
 function addTrainToList(train) {
-  $("#train-table").append(`
+  train = trainCalculator(train);
+  $("#train-table > tbody").append(`
   <tr>
       <th scope="row">${train.type}-${train.name}</th>
-      <td>${train.stop}</td>
+      <td>${train.nextStop}</td>
       <td>${train.milleage}</td>
       <td>${train.arrival}</td>
       <td>${train.direction}</td>
   </tr>
-  `)
-
+`)
 }
 
-
+function updateTrains(trains){
+  $("#train-table > tbody").empty();
+  trains.forEach(train => addTrainToList(train));
+}
 
