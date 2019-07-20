@@ -7,13 +7,13 @@
 
 */
 
-$(document).ready(function() {
+$(document).ready(function () {
   console.log("よろしくね おねがいします。");
   console.log("はじめましょう。");
   console.log("I look forward to working with you​");
   console.log("Let us begin.");
 
-  
+
   var firebaseConfig = {
     apiKey: "AIzaSyBUA3JHYkBzf2xl1xZLt3qmFnFUBymd1KM",
     authDomain: "trainapp-fda47.firebaseapp.com",
@@ -27,26 +27,13 @@ $(document).ready(function() {
 
   let database = firebase.database();
 
+  
+
 
 });
 
 //database.ref("/users")
 //used to look at directories of the database
-
-/*
-  Web page layout
-
-  Login
-    - user can login using firebase.
-
-  Train user display
-    - see trains based on current station
-
-  Train admin display
-    - add a train
-        - set direction
-        - set type
-*/
 
 /*
   Program layout
@@ -151,14 +138,25 @@ function distanceMap(userStation, startingStation, currentMileage) {
 
 */
 
-function trainFactory(){
+function trainFactory() {
   // makes trains?
 }
 
 
 
 
+function addTrainToList(train) {
+  $("#train-table").append(`
+  <tr>
+      <th scope="row">${train.type}-${train.name}</th>
+      <td>${train.stop}</td>
+      <td>${train.milleage}</td>
+      <td>${train.arrival}</td>
+      <td>${train.direction}</td>
+  </tr>
+  `)
 
+}
 
 
 

@@ -6,7 +6,7 @@
 
 $(document).ready(function(){
 
-
+  console.log(moment("12-25-1995 24:00", "MM-DD-YY HH:mm").valueOf())
 $(document).on('change', '#train-type', changeTrainStations);
 
 $(document).on('click', '#submit-train', addATrain);
@@ -14,6 +14,29 @@ $(document).on('click', '#submit-train', addATrain);
 
 function addATrain(e){
   e.preventDefault();
+  let name = $("#train-nick").val().trim();
+  let type = $("#train-type").val().trim();
+  let stop = $("#train-stop").val().trim();
+  let depart = $("#train-depart").val().trim();
+  let direction = $("#train-direction").val().trim();
+  let date = $("#train-date").val().trim();
+  console.log(date, depart)
+  let time = moment(`${date} ${depart}`, "YYYY-MM-DD HH:mm").valueOf();
+ 
+  console.log(name, type, stop, depart, direction, date, time)
+  if(name && type && stop && depart && direction){
+    firebase.database().ref("/trains").push({
+      name,
+      type,
+      stop,
+      depart,
+      direction,
+      date,
+      time
+    })
+  }else{
+    console.log("form error");
+  }
 }
 
 
