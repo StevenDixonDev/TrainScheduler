@@ -38,7 +38,6 @@ $(document).ready(function () {
   let trainUpdater = setInterval(()=>{
     updateTrains(trainList);
   }, 60000);
-
 });
 
 
@@ -153,14 +152,14 @@ function trainCalculator(train) {
   //console.log(cdistance);
   train.nextStop = nextStop;
   train.milleage = distanceTill.toFixed(2);
-  train.arrival = timeTill.toFixed(0);
+  train.arrival = timeTill;
   train.direction = cDirection;
   return train;
 }
 
 function calcTime(distance, speed){
   // use math to get what we need
-  return (distance/speed)*60;
+  return moment().add(Math.floor((distance/speed)*60), 'minutes').format('LT');
 }
 
 function calcDistance(next, current){
