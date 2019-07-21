@@ -1,6 +1,11 @@
 # JR central rail
 There are 6 trains that travel from osaka -> tokyo
 
+
+resources:
+https://www.japan-guide.com/e/e2018.html
+https://www.learn-japanese-adventure.com/japanese-trains.html
+
 - Nozomi - not valid
 - Hikari 
 - Kodama
