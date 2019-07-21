@@ -29,10 +29,8 @@ $(document).ready(function () {
   let database = firebase.database();
 
   database.ref("/trains").on('child_added', function (data) {
-    //console.log(data.val())
     trainList.push(data.val());
     addTrainToList(data.val())
-
   })
 
   let trainUpdater = setInterval(()=>{
@@ -94,8 +92,9 @@ function getRemainingDistance(rate, distance, train){
   let currentDir = train.direction;
   while (tempD - rate > 0) {
     tempD = tempD - rate;
-    currentDir = {East: "West", West: "East"}[currentDir];
+    currentDir = {"East": "West", "West": "East"}[currentDir];
   }
+  console.log(train.name, train.direction, currentDir)
   return {distance: tempD, direction: currentDir};
 }
 
@@ -113,7 +112,7 @@ function trainCalculator(train) {
   const calculatedDD = getRemainingDistance(rate, distance, train);
   let cdistance = calculatedDD.distance;
   let cDirection = calculatedDD.direction;
-  
+  //console.log(train.name, cdistance, cDirection)
   // get the stops object
   let map = getStops(train.type);
   // get the keys which are locations
@@ -142,6 +141,8 @@ function trainCalculator(train) {
     }
   })
 
+
+
   // determine distance from
   let distanceTill = calcDistance(trainMap()[nextStop], currentMile);
   
@@ -153,7 +154,7 @@ function trainCalculator(train) {
   train.nextStop = nextStop;
   train.milleage = distanceTill.toFixed(2);
   train.arrival = timeTill;
-  train.direction = cDirection;
+  train.currentDirection = cDirection;
   return train;
 }
 
@@ -181,7 +182,7 @@ function addTrainToList(train) {
       <td>${train.nextStop}</td>
       <td>${train.milleage}</td>
       <td>${train.arrival}</td>
-      <td>${train.direction}</td>
+      <td>${train.currentDirection}</td>
   </tr>
 `)
 }
