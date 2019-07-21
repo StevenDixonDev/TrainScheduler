@@ -44,3 +44,11 @@ Bonus:
 - In no way am I an expert on the Japanese Langauge or culture.
 - All language that appears on this site has not been checked over by anyone.
 - Don't mean to offend, send me a email and I will make sure to fix anything incorrectly represented.
+
+
+## Compatible Browsers
+
+Tested on: 
+- Google Chrome - Version 75
+- Fire Fox - Version 68.0 
+- Edge - Version 42.^
