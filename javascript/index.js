@@ -19,7 +19,6 @@ $(document).ready(function () {
     messagingSenderId: "534099270836",
     appId: "1:534099270836:web:a8f5baea92c2d019"
   };
-
   firebase.initializeApp(firebaseConfig);
   // store database in a variable so that it can be referenced later
   const database = firebase.database();
@@ -31,7 +30,6 @@ $(document).ready(function () {
         addTrainToList(data.val());
       }
     });
-
   // create an interval that updates the trains every minute
   let trainUpdater = setInterval(() => {
     updateTrains(trainList);
@@ -169,14 +167,24 @@ function trainCalculator(train) {
     }
   })
 
+  let mileTillRoundTrip = 0;
+  let milleageFrom = map[train.stop];
+
+  console.log(milleageFrom)
+  if(milleageFrom > currentMile){
+    mileTillRoundTrip = milleageFrom - currentMile;
+  }else{
+    mileTillRoundTrip = currentMile - milleageFrom;
+  }
+
+  let timeTillRoundTrip = mileTillRoundTrip/speed;
 
 
   // determine distance from current location and next stop see below
   let distanceTill = calcDistance(trainMap()[nextStop], currentMile);
 
-
   // determine time away see below
-  let timeTill = calcTime(distanceTill, speed)
+  let timeTill = calcTime(distanceTill, speed);
 
   // set new items in current train
   train.nextStop = nextStop;
@@ -184,13 +192,15 @@ function trainCalculator(train) {
   train.milleage = distanceTill.toFixed(2);
   train.arrival = timeTill;
   train.currentDirection = cDirection;
+  train.roundTripTime = timeTillRoundTrip;
   // return the updated train
   return train;
 }
 
 function calcTime(distance, speed) {
   // use math and moment to get what we need in regards to time
-  return moment().add(Math.floor((distance / speed) * 60), 'minutes').format('LT');
+  
+  return Math.floor((distance / speed) * 60);
 }
 
 function calcDistance(next, current) {
@@ -220,6 +230,7 @@ function addTrainToList(train) {
         <td>${train.milleage}</td>
         <td>${train.arrival}</td>
         <td>${train.currentDirection}</td>
+        <td>${train.roundTripTime}</td
     </tr>
   }
 `)
