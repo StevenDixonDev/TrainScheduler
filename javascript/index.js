@@ -3,10 +3,6 @@
 */
 
 $(document).ready(function() {
-  console.log("よろしくね おねがいします。");
-  console.log("はじめましょう。");
-  console.log("I look forward to working with you​");
-  console.log("Let us begin.");
   // list of trains that is updated when new trains are added through the train form
   let trainList = [];
   // fire base settings
@@ -32,7 +28,7 @@ $(document).ready(function() {
   // create an interval that updates the trains every minute
   let trainUpdater = setInterval(() => {
     updateTrains(trainList);
-  }, 6000);
+  }, 60000);
 });
 
 // map the correct stops for the trains based on the type of train
@@ -152,7 +148,7 @@ function trainCalculator(train) {
   // distance from one end of the tokaido line to the other
   const rate = 514.4;
   // trains average speed with stops considered
-  const speed = 175;
+  const speed = train.speed || 175;
   // get the dinstance delta distance or how far the train has travelled since starting
   const distance = getDistance(train, speed);
   // calculate trains remaining distance
@@ -213,19 +209,25 @@ function trainCalculator(train) {
   if (timeTill === 0) {
     timeTill = "Arriving";
   }
+
+
+
   // set new items in current train
   train.nextStop = nextStop;
   // use toFixed to make sure the distance is not a long number
-  train.milleage = distanceTill.toFixed(2);
+  train.distance = distanceTill.toFixed(2);
   train.arrival = timeTill;
-  train.currentDirection = cDirection;
+
   train.roundTripTime = timeTillRoundTrip.format("hh:mm a");
+  train.frequency = moment.utc((rate/speed*3600*1000)*2).format('HH:mm');
+  train.minRoundAway = timeTillRoundTrip.diff(moment(), 'minutes');
+  
+  train.currentDirection = cDirection;
   // return the updated train
   return train;
 }
 
 function calcRoundTime(direction, currentMile, stop, fullDistance) {
-  console.log(stop);
   let mileFrom = 0;
   if (direction === "East") {
     if (currentMile > stop) {
@@ -267,28 +269,30 @@ function addTrainToList(train) {
   // use train calculator to get a train with the relevant information mapped
   train = trainCalculator(train);
   // make sure the train has the proper values before adding it to the DOM
-  if (
-    train.nextStop &&
-    train.milleage &&
-    train.arrival &&
-    train.currentDirection
-  ) {
     $("#train-table  tbody").append(`
+    <tr>
+        <th scope="row">${train.type}-${train.name}</th>
+        <td>${train.stop}</td>
+        <td>${train.minRoundAway}</td>
+        <td>${train.roundTripTime}</td>
+        <td>${train.frequency}</td>
+    </tr>
+    `);
+
+    $("#train-short-table  tbody").append(`
     <tr>
         <th scope="row">${train.type}-${train.name}</th>
         <td>${train.nextStop}</td>
         <td>${train.arrival}</td>
-        <td>${train.stop}</td>
-        <td>${train.roundTripTime}</td>
+        <td>${train.distance}</td>
     </tr>
-  }
-`);
-  }
+    `);
 }
 
 function updateTrains(trains) {
   // empty the table before updating the trains
   $("#train-table  tbody").empty();
+  $("#train-short-table  tbody").empty();
   // loop through the train object and update each train based on the train calculations
   trains.forEach(train => addTrainToList(train));
 }

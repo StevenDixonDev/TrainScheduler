@@ -19,10 +19,11 @@ function addATrain(e) {
   let depart = $("#train-depart").val().trim();
   let direction = $("#train-direction").val().trim();
   let date = $("#train-date").val().trim();
+  let speed = $("#train-speed").val();
   // get unix epoch time
   let time = moment(`${date} ${depart}`, "YYYY-MM-DD HH:mm");
   // make sure everything is filled out
-  if (name && type && stop && depart && direction && time.isValid()) {
+  if (name && type && stop && depart && direction && time.isValid() && speed) {
     // add the new train to firebase
     firebase.database().ref("/trains").push({
       name,
@@ -30,6 +31,7 @@ function addATrain(e) {
       stop,
       direction,
       date: `${date} ${depart}`,
+      speed
     })
     // clear the from
     clearForm();
@@ -48,7 +50,7 @@ function clearForm() {
 // function to update the list of available stops when user changes train type
 function changeTrainStations(e) {
   // temporary train type variable
-  let type = e.target;
+  let type = e.target.value;
   // set a variable for stations
   let stations = [];
   if (type === 'Hikari') {
@@ -57,6 +59,7 @@ function changeTrainStations(e) {
     stations = ["Tokyo", "Shinagawa", "Shin-Yokohama", "Odawara", "Atami", "Mishima", "Shin-Fuji", "Shizouka", "Kakegawa", "Hamamatsu", "Toyohashi", "Mikawa-Anjō", "Nagoya", "Gifu-hashima", "Maibara", "Kyoto", "Shin-Ōsaka"];
   }
   // based on train stops add the stations to dom
+  console.log(stations)
   addStationsToDom(stations);
 }
 
