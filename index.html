@@ -32,7 +32,7 @@
   </section>
   <section id="train-display" class="d-none d-flex flex-column">
     <div class="jumbotron mb-0 p-7 w-100" style="position: relative; z-index: -101; overflow: hidden;">
-      <h1 class="text-white text-center m-4" style="z-index:1;" data-jp="新幹線のスケジューラ" data-en="Shinkansen Scheduler">
+      <h1 class="text-white text-center m-4" style="z-index:1;" data-jp="スケジューラの新幹線" data-en="Shinkansen Scheduler">
         Shinkansen Scheduler</h1>
       <video autoplay muted loop class="w-100" id="video">
         <source src="" data-src="./assets/video/filtered.mp4" type="video/mp4">
@@ -55,12 +55,12 @@
       <table class="table" id="train-table">
         <thead>
           <tr>
-            <th scope="col" data-jp="型-名" data-en="Name">Name</th>
-            <th scope="col" data-jp="到着駅" data-en="Arriving at">Arriving at</th>
-            <th scope="col" data-jp="距離(里)" data-en="Distance (miles)">Distance (miles)</th>
-            <th scope="col" data-jp="到着時刻" data-en="Minutes Away">Minutes away</th>
-            <th scope="col" data-jp="方向" data-en="Direction">Direction</th>
-            <th scope="col" data-jp="方向" data-en="Round Trip">Round Trip</th>
+            <th scope="col" data-jp="型-名" data-en="Type-Name">Type-Name</th>
+            <th scope="col" data-jp="次の停車駅" data-en="Next Stop">Next Stop</th>
+            <!-- <th scope="col" data-jp="距離(里)" data-en="Distance (miles)">Distance (miles)</th> -->
+            <th scope="col" data-jp="到着時刻" data-en="Minutes Away">Minutes Away</th>
+            <th scope="col" data-jp="行き先" data-en="Destination">Destination</th>
+            <th scope="col" data-jp="次の到着" data-en="Next Arrival">Next Arrival</th>
           </tr>
         </thead>
         <tbody>
@@ -83,14 +83,14 @@
         <form class="p-1">
           <div class="form-row">
             <div class="form-group col-sm-12 col-md-6">
-              <label for="train-type" data-jp="電車の型" data-en="Train Type: ">Train Type: </label>
+              <label for="train-type" data-jp="電車の型" data-en="Train Type:">Train Type:</label>
               <select class="form-control form-control-sm" id="train-type">
                 <option>Hikari</option>
                 <option>Kodama</option>
               </select>
             </div>
             <div class="form-group col-sm-12 col-md-6">
-              <label for="train-stop" data-jp="停留所" data-en="Train Station: ">Train Station: </label>
+              <label for="train-stop" data-jp="停留所" data-en="Train Station: ">Train Station:</label>
               <select class="form-control form-control-sm" id="train-stop">
                 <option value="Tokyo">Tokyo</option>
                 <option value="Shinagawa">Shinagawa</option>
@@ -109,22 +109,22 @@
           </div>
           <div class="form-row">
             <div class="form-group col-sm-12 col-md-6">
-              <label for="train-nick" data-jp="電車の名" data-en="Name：">Name：</label>
+              <label for="train-nick" data-jp="電車の名" data-en="Name">Name:</label>
               <input id="train-nick" class="form-control"></input>
             </div>
             <div class="form-group col-sm-12 col-md-6">
-              <label for="train-depart" data-jp="出発時刻" data-en="Departure Time">Departure Time：</label>
+              <label for="train-depart" data-jp="出発時刻" data-en="Departure Time">Departure Time:</label>
               <input id="train-depart" type="time" class="form-control"></input>
             </div>
 
           </div>
           <div class="form-row">
               <div class="form-group col-sm-12 col-md-6">
-                  <label for="train-date" data-jp="出発日" data-en="Departure Date">Departure Date：</label>
+                  <label for="train-date" data-jp="出発日" data-en="Departure Date">Departure Date:</label>
                   <input id="train-date" type="date" class="form-control"></input>
                 </div>
             <div class="form-group col-sm-12 col-md-6">
-              <label for="train-direction" data-jp="方" data-en="Direction:">Direction</label>
+              <label for="train-direction" data-jp="方" data-en="Direction:">Direction:</label>
               <select id="train-direction" class="form-control">
                 <option data-jp="東" data-en="East" value="East">East</option>
                 <option data-jp="西" data-en="West" value="West">West</option>

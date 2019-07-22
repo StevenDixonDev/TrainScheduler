@@ -4,7 +4,8 @@
 
 specifically the Tokaido Shinkansen.
 
-:bullettrain_side: このアプリは新幹線のスケジュールを処理します。
+The train schedules are not calculated as they would be in real life. To keep the scope of the project smaller, the trains turn around at the end
+of the tokaido line and start traveling in the oppisite direction. The frequency of each train is the average speed*distance this calculates out to be around 3.15 hours for the trains to reach their starting station again.
 
 ## Libraries
 
@@ -33,10 +34,10 @@ Bonus:
 
 ## Things I learned
 
-- I had to do a ton of research on the Shinkansen to figure out how the schedules worked
-- Firebase make auth easy if you set it up right
+- I had to do a ton of research on the Shinkansen
+- Firebase makes auth easy if you set it up right
 - Video editing is not my strong suite
-- code splitting is interesting
+- Code splitting is interesting
 - Math is hard sometimes
 
 ## Things to note
